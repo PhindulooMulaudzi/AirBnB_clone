@@ -9,6 +9,16 @@ from models.engine.file_storage import FileStorage
 class HBNBCommandHelper:
     """This class provides methods to execute various commands."""
 
+    class_mapping = {
+        'BaseModel': BaseModel,
+        # 'User': User,
+        # 'City': City,
+        # 'Place': Place,
+        # 'Amenity': Amenity,
+        # 'Review': Review,
+        # 'State': State
+    }
+
     @staticmethod
     def execute_command(command_name, args):
         """
@@ -39,40 +49,22 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'create' command.
         """
+        if not HBNBCommandHelper.isvalid_class_name(args):
+            return
+
+        # get class name
         class_name = args[0]
-        class_mapping = {
-            'BaseModel': BaseModel,
-            # 'User': User,
-            # 'City': City,
-            # 'Place': Place,
-            # 'Amenity': Amenity,
-            # 'Review': Review,
-            # 'State': State
-        }
 
-        if class_name in class_mapping:
-            print("Creating class name: {}".format(class_name))
+        # create the object
+        obj = HBNBCommandHelper.class_mapping[class_name]()
 
-            # create the object
-            obj = class_mapping[class_name]()
+        # save object to file storage
+        FileStorage.new(obj)
+        FileStorage.save()
 
-            # save object to file storage
-            FileStorage.new(obj)
-            FileStorage.save()
+        print("{} created with id {}".format(class_name, obj.id))
 
-            # retrieve save object from storage
-            FileStorage.reload()
-            retObj = FileStorage.all()
-
-            # create key of object in storage
-            key = "{}.{}".format(class_name, obj.id)
-
-            print("{} created with id {}".format(class_name, obj.id))
-        else:
-            print("Invalid class name: {}".format(class_name))
-            # raise ValueError("Invalid class name: {}".format(class_name))
-
-    @staticmethod
+    @ staticmethod
     def do_show(args):
         """
         Execute the 'show' command.
@@ -80,9 +72,12 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'show' command.
         """
+        # create key of object in storage
+        # key = "{}.{}".format(class_name, obj.id)
+
         print('Executing show logic with args:', args)
 
-    @staticmethod
+    @ staticmethod
     def do_destroy(args):
         """
         Execute the 'destroy' command.
@@ -92,7 +87,7 @@ class HBNBCommandHelper:
         """
         print('Executing destroy logic with args:', args)
 
-    @staticmethod
+    @ staticmethod
     def do_all(args):
         """
         Execute the 'all' command.
@@ -102,7 +97,7 @@ class HBNBCommandHelper:
         """
         print('Executing all logic with args:', args)
 
-    @staticmethod
+    @ staticmethod
     def do_update(args):
         """
         Execute the 'update' command.
@@ -111,3 +106,18 @@ class HBNBCommandHelper:
             args (list): List of arguments for the 'update' command.
         """
         print('Executing update logic with args:', args)
+
+    @ staticmethod
+    def isvalid_class_name(args):
+        """Determine if class name exists or is not specified."""
+        if (args == []):
+            print("** class name missing **")
+            return False
+
+        class_name = args[0]
+        if class_name not in HBNBCommandHelper.class_mapping:
+            print("** class doesn't exist **")
+            return False
+
+        # Return true ottherwise
+        return True
