@@ -30,6 +30,7 @@ class BaseModel:
 
         """
         self.id = uuid4()
+        self.name = None
 
         current_time = datetime.now()
         self.created_at = current_time
