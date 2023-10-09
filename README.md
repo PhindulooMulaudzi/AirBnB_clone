@@ -42,14 +42,85 @@ The command interpreter is a vital tool in this project, allowing users to inter
 
 The data model comprises various classes representing AirBnB objects. These classes inherit from the `BaseModel` and define the structure and behavior of the corresponding objects, ensuring consistency and organization within the application.
 
+Got it! Here's how you can add a section for Authors in the README file:
+
 ## Usage
 
-Follow the instructions in the AirBnB concept page to set up and run the project. Use the command interpreter to manage AirBnB objects efficiently. Refer to the unittests to validate the functionality of the classes and storage engine.
+### Getting Started
 
-## Contributing
+1. Clone the repository to your local machine:
+   ```bash
+   git clone <repository_url>
+   ```
 
-We welcome contributions to this project! If you'd like to contribute, please follow our [contribution guidelines](CONTRIBUTING.md) to get started.
+2. Navigate to the project directory:
+   ```bash
+   cd AirBnB-Clone-Project
+   ```
 
-## License
+3. Ensure you have Python installed. This project is compatible with Python 3.x.
 
-This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute this code as per the terms of the license.
+### Authors
+
+Contributors to this project:
+- [Phindulo Mulaudzi](https://github.com/your_github_profile)
+- [Another Contributor](https://github.com/another_contributor)
+
+### Starting the Command Interpreter
+
+To start the command interpreter, run the `console.py` script:
+```bash
+./console.py
+```
+
+### Interactive Mode
+
+In interactive mode, you can directly enter commands and see the output:
+```bash
+(hbnb) help
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+
+(hbnb) 
+(hbnb) 
+(hbnb) quit
+```
+
+### Non-Interactive Mode
+
+You can also use the command interpreter in non-interactive mode by passing commands via standard input (pipe):
+```bash
+echo "help" | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+```
+
+Or you can use a file to input commands:
+```bash
+cat test_help | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+```
+
+In non-interactive mode, the commands are read from standard input or a file, and the output is displayed accordingly.
+
+### Examples
+
+Here are some examples of commands you can use in the interactive mode:
+- `help`: Displays the list of available commands and their descriptions.
+- `create <class_name>`: Creates an instance of the specified class.
+- `show <class_name> <id>`: Displays information about an instance based on the class name and ID.
+- `all <class_name>`: Displays all instances of a specific class or all instances if no class is provided.
+- `update <class_name> <id> <attribute_name> "<attribute_value>"`: Updates the specified attribute of an instance.
+- `destroy <class_name> <id>`: Deletes an instance based on the class name and ID.
+
+Feel free to explore and use these commands to manage AirBnB objects efficiently.
