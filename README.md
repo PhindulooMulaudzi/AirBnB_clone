@@ -45,11 +45,3 @@ The data model comprises various classes representing AirBnB objects. These clas
 ## Usage
 
 Follow the instructions in the AirBnB concept page to set up and run the project. Use the command interpreter to manage AirBnB objects efficiently. Refer to the unittests to validate the functionality of the classes and storage engine.
-
-## Contributing
-
-We welcome contributions to this project! If you'd like to contribute, please follow our [contribution guidelines](CONTRIBUTING.md) to get started.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute this code as per the terms of the license.
