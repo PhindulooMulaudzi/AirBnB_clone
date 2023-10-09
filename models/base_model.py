@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 
-"""
-base_model.py
-
-This module defines the BaseModel class, which represents a basic model with common attributes and methods.
-"""
+"""base_model.py - This module defines the BaseModel class."""
 
 from datetime import datetime
 from uuid import uuid4
+
 
 class BaseModel:
     """
@@ -23,25 +20,27 @@ class BaseModel:
 
     Public Instance Methods:
     - save(): Updates the 'updated_at' attribute with the current datetime.
-    - to_dict(): Returns a dictionary containing instance attributes in a specified format.
+    - to_dict(): Returns a dictionary containing instance attributes in a
+    specified format.
     - __str__(): Returns a string representation of the instance.
 
     Attributes:
         my_number (int): Total count of instances created.
 
     Methods:
-        __init__(*args, **kwargs): Initializes a BaseModel instance with a unique 'id', creation time, and updates the 'my_number' count.
+        __init__(*args, **kwargs): Initializes a BaseModel instance with a
+        unique 'id', creation time, and updates the 'my_number' count.
         save(): Updates the 'updated_at' attribute with the current datetime.
         to_dict(): Converts instance attributes to a dictionary format.
         __str__(): Returns a string representation of the instance.
 
     """
+
     my_number = 0
 
     def __init__(self, *args, **kwargs):
         """
-        Initializes a BaseModel instance with a unique 'id', creation time,
-        and updates the 'my_number' count.
+        Initialize a BaseModel instance with a unique 'id', e.t.c.
 
         Args:
             *args: Variable length argument list.
@@ -49,14 +48,16 @@ class BaseModel:
 
         Keyword Args:
             id (str): Unique identifier for the instance.
-            created_at (str, optional): String representation of creation time (format: "%Y-%m-%dT%H:%M:%S.%f").
-            updated_at (str, optional): String representation of last update time (format: "%Y-%m-%dT%H:%M:%S.%f").
+            created_at (str, optional):
+                String representation of creation time.
+            updated_at (str, optional):
+                String representation of last update time.
 
         """
         # create re-usable propery for current time
         current_time = datetime.now()
 
-        if(kwargs):
+        if (kwargs):
 
             if 'id' not in kwargs.keys():
                 self.id = str(uuid4())
@@ -71,9 +72,9 @@ class BaseModel:
                 if key == '__class__':
                     continue
                 if key == 'created_at':
-                    val = datetime.strptime(val,"%Y-%m-%dT%H:%M:%S.%f")
+                    val = datetime.strptime(val, "%Y-%m-%dT%H:%M:%S.%f")
                 if key == 'updated_at':
-                    val = datetime.fromisoformat(val, "%Y-%m-%dT%H:%M:%S.%f")
+                    val = datetime.strptime(val, "%Y-%m-%dT%H:%M:%S.%f")
 
                 setattr(self, key, val)
         else:
@@ -86,17 +87,11 @@ class BaseModel:
         BaseModel.my_number += 1
 
     def save(self):
-        """
-        Updates the 'updated_at' attribute with the current datetime.
-
-        """
+        """Update the 'updated_at' attribute with the current datetime."""
         self.updated_at = datetime.now()
 
     def to_dict(self):
-        """
-        Converts instance attributes to a dictionary format.
-
-        """
+        """Convert instance attributes to a dictionary format."""
         instance_dict = self.__dict__.copy()
 
         instance_dict['__class__'] = self.__class__.__name__
@@ -106,9 +101,6 @@ class BaseModel:
         return instance_dict
 
     def __str__(self):
-        """
-        Returns a string representation of the instance.
-
-        """
+        """Return a string representation of the instance."""
         class_name = self.__class__.__name__
         return f"[{class_name} ({self.id}) {self.__dict__}]"

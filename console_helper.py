@@ -2,6 +2,9 @@
 
 """Defines HBNBCommandHelper, which provides methods to,execute commands."""
 
+from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+
 
 class HBNBCommandHelper:
     """This class provides methods to execute various commands."""
@@ -36,7 +39,38 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'create' command.
         """
-        print('Executing create logic with args:', args)
+        class_name = args[0]
+        class_mapping = {
+            'BaseModel': BaseModel,
+            # 'User': User,
+            # 'City': City,
+            # 'Place': Place,
+            # 'Amenity': Amenity,
+            # 'Review': Review,
+            # 'State': State
+        }
+
+        if class_name in class_mapping:
+            print("Creating class name: {}".format(class_name))
+
+            # create the object
+            obj = class_mapping[class_name]()
+
+            # save object to file storage
+            FileStorage.new(obj)
+            FileStorage.save()
+
+            # retrieve save object from storage
+            FileStorage.reload()
+            retObj = FileStorage.all()
+
+            # create key of object in storage
+            key = "{}.{}".format(class_name, obj.id)
+
+            print("{} created with id {}".format(class_name, obj.id))
+        else:
+            print("Invalid class name: {}".format(class_name))
+            # raise ValueError("Invalid class name: {}".format(class_name))
 
     @staticmethod
     def do_show(args):
