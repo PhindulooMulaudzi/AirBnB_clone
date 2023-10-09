@@ -1,4 +1,4 @@
-#!/bin/usr/env pyython3
+#!/usr/bin/env python3
 
 """Defines HBNBCommandHelper, which provides methods to,execute commands."""
 
@@ -28,14 +28,18 @@ class HBNBCommandHelper:
             command_name (str): The name of the command to execute.
             args (list): List of arguments for the command.
         """
+
+        if command_name == 'all':
+            HBNBCommandHelper.do_all(args)
+            return
+        if not HBNBCommandHelper.isvalid_class_name(args):
+            return
         if command_name == 'create':
             HBNBCommandHelper.do_create(args)
         elif command_name == 'show':
             HBNBCommandHelper.do_show(args)
         elif command_name == 'destroy':
             HBNBCommandHelper.do_destroy(args)
-        elif command_name == 'all':
-            HBNBCommandHelper.do_all(args)
         elif command_name == 'update':
             HBNBCommandHelper.do_update(args)
         else:
@@ -49,8 +53,6 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'create' command.
         """
-        if not HBNBCommandHelper.isvalid_class_name(args):
-            return
 
         # get class name
         class_name = args[0]
@@ -72,10 +74,17 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'show' command.
         """
-        # create key of object in storage
-        # key = "{}.{}".format(class_name, obj.id)
+        if not HBNBCommandHelper.isvalid_args(args):
+            return
+        if not HBNBCommandHelper.isvalid_key(args):
+            return
 
-        print('Executing show logic with args:', args)
+        class_name, obj_id = args[0], args[1]
+        key = "{}.{}".format(class_name, obj_id)
+        objects = FileStorage.all()
+
+        class_ctor = HBNBCommandHelper.class_mapping[class_name]
+        print(class_ctor(objects.get(key)).__str__())
 
     @ staticmethod
     def do_destroy(args):
@@ -85,7 +94,17 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'destroy' command.
         """
-        print('Executing destroy logic with args:', args)
+        if not HBNBCommandHelper.isvalid_args(args):
+            return
+        if not HBNBCommandHelper.isvalid_key(args):
+            return
+
+        class_name, obj_id = args[0], args[1]
+        key = "{}.{}".format(class_name, obj_id)
+        objects = FileStorage.all()
+
+        del objects[key]
+        FileStorage.save()
 
     @ staticmethod
     def do_all(args):
@@ -95,7 +114,41 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'all' command.
         """
-        print('Executing all logic with args:', args)
+        objects = FileStorage.all()
+
+        if args == []:
+            string = "[\""
+            for key, val in objects.items():
+                parsed_class_name = str.split(key, ".")[0]
+
+                if parsed_class_name not in HBNBCommandHelper.class_mapping:
+                    print("** class doesn't exist **")
+                    continue
+
+                class_ctor = HBNBCommandHelper.class_mapping[parsed_class_name]
+                string += class_ctor(val).__str__() + "\", \""
+            string += "]"
+            print(string)
+
+            return
+
+        class_name = args[0]
+        if class_name not in HBNBCommandHelper.class_mapping:
+            print("** class doesn't exist **")
+            return
+
+        string = "[\""
+
+        for key, val in objects.items():
+            parsed_class_name = str.split(key, ".")[0]
+
+            if parsed_class_name != class_name:
+                continue
+
+            class_ctor = HBNBCommandHelper.class_mapping[parsed_class_name]
+            string += class_ctor(val).__str__() + "\", \""
+            string += "]"
+        print(string)
 
     @ staticmethod
     def do_update(args):
@@ -120,4 +173,30 @@ class HBNBCommandHelper:
             return False
 
         # Return true ottherwise
+        return True
+
+    def isvalid_args(args):
+        """Check if the recieved args are valid."""
+        # create key of object in storage
+        if not isinstance(args, list):
+            return False
+
+        if list.__len__(args) != 2:
+            print("** instance id missing **")
+            return False
+
+        return True
+
+    def isvalid_key(args):
+        """Check if parsed key is existing or valid."""
+        # create key and get all objects
+        class_name, obj_id = args[0], args[1]
+        key = "{}.{}".format(class_name, obj_id)
+        objects = FileStorage.all()
+
+        # look for requested object
+        if key not in objects.keys():
+            print("** no instance found **")
+            return False
+
         return True

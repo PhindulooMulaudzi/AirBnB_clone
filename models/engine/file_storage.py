@@ -29,6 +29,7 @@ class FileStorage:
         Returns:
             dict: Dictionary containing objects.
         """
+        cls.reload()
         return cls.__objects
 
     @classmethod

@@ -79,8 +79,6 @@ class BaseModel:
                 setattr(self, key, val)
         else:
             self.id = str(uuid4())
-            self.name = None
-
             self.created_at = current_time
             self.updated_at = current_time
 
@@ -103,4 +101,4 @@ class BaseModel:
     def __str__(self):
         """Return a string representation of the instance."""
         class_name = self.__class__.__name__
-        return f"[{class_name} ({self.id}) {self.__dict__}]"
+        return f"[{class_name}] ({self.id}) {self.__dict__}"
