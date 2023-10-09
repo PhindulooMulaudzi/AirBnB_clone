@@ -19,67 +19,43 @@ class FileStorage:
         __objects (dict): Dictionary to store objects by class name and id.
     """
 
-    def __init__(self, file_path):
-        """
-        Initializes the FileStorage instance.
+    __file_path = "file.json"
+    __objects = {}
 
-        Args:
-            file_path (str): Path to the JSON file.
-        """
-        self.__file_path = file_path
-        self.__objects = {}
-
-        # Load data from the file if it exists
-        if self.file_exists():
-            self.reload()
-
-    def file_exists(self):
-        """
-        Check if the JSON file exists.
-
-        Returns:
-            bool: True if the file exists, False otherwise.
-        """
-        try:
-            with open(self.__file_path, 'r') as file:
-                return True
-        except FileNotFoundError:
-            return False
-
-    def all(self):
+    @classmethod
+    def all(cls):
         """
         Returns the dictionary of objects.
 
         Returns:
             dict: Dictionary containing objects.
         """
-        return self.__objects
+        return cls.__objects
 
-    def new(self, obj):
+    @classmethod
+    def new(cls, obj):
         """
         Adds a new object to the dictionary of objects.
 
         Args:
-            obj (dict): The object to add to the dictionary.
-
-        Raises:
-            ValueError: If obj is not a dictionary or has no 'id' key.
+            obj (BaseModel): The object to add to the dictionary.
         """
-        if not isinstance(obj, dict):
-            raise ValueError("Object must be a dictionary")
+        class_name = obj.__class__.__name__
+        key = "{}.{}".format(class_name, obj.id)
+        cls.__objects[key] = obj.__dict__
 
-        self.__objects[obj.__class__.name] = obj
-
-    def save(self):
+    @classmethod
+    def save(cls):
         """
         Serializes __objects to the JSON file.
         """
-        with open(self.__file_path, 'w') as file:
-            json.dump(self.__objects, file)
+        with open(cls.__file_path, 'w') as file:
+            json.dump(cls.__objects, file, indent=4)
 
-    def reload(self):
+    @classmethod
+    def reload(cls):
         """
         Deserializes the JSON file to __objects.
         """
-        with open(self.__file_path, 'r') as file:
-            self.__objects = json.load(file)
+        with open(cls.__file_path, 'r') as file:
+            cls.__objects = json.load(file)
