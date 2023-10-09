@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""
+base_model.py
+
+This module defines the BaseModel class, which represents a basic model with common attributes and methods.
+"""
+
 from datetime import datetime
 from uuid import uuid4
 
