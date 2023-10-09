@@ -42,8 +42,6 @@ The command interpreter is a vital tool in this project, allowing users to inter
 
 The data model comprises various classes representing AirBnB objects. These classes inherit from the `BaseModel` and define the structure and behavior of the corresponding objects, ensuring consistency and organization within the application.
 
-Got it! Here's how you can add a section for Authors in the README file:
-
 ## Usage
 
 ### Getting Started
