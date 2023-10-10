@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 """Defines HBNBCommandHelper, which provides methods to,execute commands."""
 

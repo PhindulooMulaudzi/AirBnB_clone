@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 """console.py - A Python program implementing a command interpreter."""
 
