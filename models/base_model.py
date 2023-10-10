@@ -58,7 +58,6 @@ class BaseModel:
         current_time = datetime.now()
 
         if (kwargs):
-
             if 'id' not in kwargs.keys():
                 self.id = str(uuid4())
 
@@ -71,10 +70,12 @@ class BaseModel:
             for key, val in kwargs.items():
                 if key == '__class__':
                     continue
+                if key == 'id':
+                    val = str(val)
                 if key == 'created_at':
-                    val = datetime.strptime(val, "%Y-%m-%dT%H:%M:%S.%f")
+                    val = datetime.strptime(val, "%Y-%m-%d %H:%M:%S.%f")
                 if key == 'updated_at':
-                    val = datetime.strptime(val, "%Y-%m-%dT%H:%M:%S.%f")
+                    val = datetime.strptime(val, "%Y-%m-%d %H:%M:%S.%f")
 
                 setattr(self, key, val)
         else:

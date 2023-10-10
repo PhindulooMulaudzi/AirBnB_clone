@@ -81,8 +81,9 @@ class HBNBCommandHelper:
         key = "{}.{}".format(class_name, obj_id)
         objects = FileStorage.all()
 
-        class_ctor = HBNBCommandHelper.class_mapping[class_name]
-        print(class_ctor(objects.get(key)).__str__())
+        class_obj = HBNBCommandHelper.class_mapping[class_name](
+            **objects.get(key))
+        print(str(class_obj))
 
     @ staticmethod
     def do_destroy(args):
@@ -92,9 +93,8 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'destroy' command.
         """
-        if not HBNBCommandHelper.isvalid_args(args):
-            return
-        if not HBNBCommandHelper.isvalid_key(args):
+        if not HBNBCommandHelper.isvalid_args(args) or \
+                not HBNBCommandHelper.isvalid_key(args):
             return
 
         class_name, obj_id = args[0], args[1]
@@ -134,8 +134,9 @@ class HBNBCommandHelper:
             if parsed_class_name != class_name:
                 continue
 
-            class_ctor = HBNBCommandHelper.class_mapping[parsed_class_name]
-            result_list.append(str(class_ctor(val)))
+            class_obj = HBNBCommandHelper.class_mapping[parsed_class_name](
+                **val)
+            result_list.append(str(class_obj))
         print(result_list)
         return
 
@@ -151,7 +152,7 @@ class HBNBCommandHelper:
                 continue
 
             class_ctor = HBNBCommandHelper.class_mapping[parsed_class_name]
-            result_list.append(str(class_ctor(val)))
+            result_list.append(str(class_ctor(**val)))
         print(result_list)
         return
 
@@ -163,6 +164,9 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'update' command.
         """
+        if not HBNBCommandHelper.isvalid_args(args) or \
+                not HBNBCommandHelper.isvalid_key(args):
+            return
         print('Executing update logic with args:', args)
 
     @ staticmethod
