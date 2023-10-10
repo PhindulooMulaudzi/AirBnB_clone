@@ -28,7 +28,6 @@ class HBNBCommandHelper:
             command_name (str): The name of the command to execute.
             args (list): List of arguments for the command.
         """
-
         if command_name == 'all':
             HBNBCommandHelper.do_all(args)
             return
@@ -53,7 +52,6 @@ class HBNBCommandHelper:
         Args:
             args (list): List of arguments for the 'create' command.
         """
-
         # get class name
         class_name = args[0]
 
@@ -116,29 +114,20 @@ class HBNBCommandHelper:
         """
         objects = FileStorage.all()
 
-        if args == []:
-            string = "[\""
-            for key, val in objects.items():
-                parsed_class_name = str.split(key, ".")[0]
+        if not args:
+            return HBNBCommandHelper.print_all_no_args(args, objects)
+        else:
+            return HBNBCommandHelper.print_all_from_args(args, objects)
 
-                if parsed_class_name not in HBNBCommandHelper.class_mapping:
-                    print("** class doesn't exist **")
-                    continue
-
-                class_ctor = HBNBCommandHelper.class_mapping[parsed_class_name]
-                string += class_ctor(val).__str__() + "\", \""
-            string += "]"
-            print(string)
-
-            return
-
+    @staticmethod
+    def print_all_from_args(args, objects):
+        """Print all objects when no args are specified."""
         class_name = args[0]
         if class_name not in HBNBCommandHelper.class_mapping:
             print("** class doesn't exist **")
             return
 
-        string = "[\""
-
+        result_list = []
         for key, val in objects.items():
             parsed_class_name = str.split(key, ".")[0]
 
@@ -146,9 +135,25 @@ class HBNBCommandHelper:
                 continue
 
             class_ctor = HBNBCommandHelper.class_mapping[parsed_class_name]
-            string += class_ctor(val).__str__() + "\", \""
-            string += "]"
-        print(string)
+            result_list.append(str(class_ctor(val)))
+        print(result_list)
+        return
+
+    @staticmethod
+    def print_all_no_args(args, objects):
+        """Print all objects when no args are specified."""
+        result_list = []
+        for key, val in objects.items():
+            parsed_class_name = key.split(".")[0]
+
+            if parsed_class_name not in HBNBCommandHelper.class_mapping:
+                print("** class doesn't exist **")
+                continue
+
+            class_ctor = HBNBCommandHelper.class_mapping[parsed_class_name]
+            result_list.append(str(class_ctor(val)))
+        print(result_list)
+        return
 
     @ staticmethod
     def do_update(args):
