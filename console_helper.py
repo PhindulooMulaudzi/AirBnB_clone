@@ -58,6 +58,11 @@ class HBNBCommandHelper:
         Returns:
             None
         """
+        known_commands = ["all", "create", "show", "destroy", "update"]
+        if command_name not in known_commands:
+            print(f"Unknown command: {command_name}")
+            return
+
         if command_name == 'all':
             HBNBCommandHelper.do_all(args)
             return
@@ -71,8 +76,6 @@ class HBNBCommandHelper:
             HBNBCommandHelper.do_destroy(args)
         elif command_name == 'update':
             HBNBCommandHelper.do_update(args)
-        else:
-            print(f"Unknown command: {command_name}")
 
     @staticmethod
     def do_create(args):
