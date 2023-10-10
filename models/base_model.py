@@ -9,6 +9,7 @@ other models in the project and provides common functionality and attributes.
 
 from datetime import datetime
 from uuid import uuid4
+from models.__init__ import storage
 
 
 class BaseModel:
@@ -87,12 +88,19 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = current_time
             self.updated_at = current_time
+            storage.new(self)
 
         BaseModel.my_number += 1
 
     def save(self):
         """Update the 'updated_at' attribute with the current datetime."""
         self.updated_at = datetime.now()
+        class_name = self.__class__.__name__
+        key = "{}.{}".format(class_name, self.id)
+
+        objects = storage.all()
+        objects[key] = self.__dict__
+        storage.save()
 
     def to_dict(self):
         """Convert instance attributes to a dictionary format."""

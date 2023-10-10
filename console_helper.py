@@ -97,8 +97,7 @@ class HBNBCommandHelper:
         obj = HBNBCommandHelper.class_mapping[class_name]()
 
         # save object to file storage
-        storage.new(obj)
-        storage.save()
+        obj.save()
 
         print(obj.id)
 
@@ -252,7 +251,10 @@ class HBNBCommandHelper:
         key = "{}.{}".format(class_name, obj_id)
         objects = storage.all()
         objects[key][attribute] = attr_value
-        storage.save()
+
+        class_obj = HBNBCommandHelper\
+            .class_mapping[class_name](**objects[key])
+        class_obj.save()
 
     @ staticmethod
     def isvalid_attributes(args):
