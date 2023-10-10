@@ -62,7 +62,6 @@ The data model comprises various classes representing AirBnB objects. These clas
 
 Contributors to this project:
 - [Phindulo Mulaudzi](https://github.com/your_github_profile)
-- [Another Contributor](https://github.com/another_contributor)
 
 ### Starting the Command Interpreter
 
