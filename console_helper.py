@@ -3,7 +3,8 @@
 """Defines HBNBCommandHelper, which provides methods to,execute commands."""
 
 from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
+from models.__init__ import storage
+from models.user import User
 
 
 class HBNBCommandHelper:
@@ -11,7 +12,7 @@ class HBNBCommandHelper:
 
     class_mapping = {
         'BaseModel': BaseModel,
-        # 'User': User,
+        'User': User,
         # 'City': City,
         # 'Place': Place,
         # 'Amenity': Amenity,
@@ -48,8 +49,8 @@ class HBNBCommandHelper:
         obj = HBNBCommandHelper.class_mapping[class_name]()
 
         # save object to file storage
-        FileStorage.new(obj)
-        FileStorage.save()
+        storage.new(obj)
+        storage.save()
 
         print(obj.id)
 
@@ -63,7 +64,7 @@ class HBNBCommandHelper:
 
         class_name, obj_id = args[0], args[1]
         key = "{}.{}".format(class_name, obj_id)
-        objects = FileStorage.all()
+        objects = storage.all()
 
         class_obj = HBNBCommandHelper.class_mapping[class_name](
             **objects.get(key))
@@ -78,15 +79,15 @@ class HBNBCommandHelper:
 
         class_name, obj_id = args[0], args[1]
         key = "{}.{}".format(class_name, obj_id)
-        objects = FileStorage.all()
+        objects = storage.all()
 
         del objects[key]
-        FileStorage.save()
+        storage.save()
 
     @ staticmethod
     def do_all(args):
         """Execute the 'all' command."""
-        objects = FileStorage.all()
+        objects = storage.all()
 
         if not args:
             return HBNBCommandHelper.print_all_no_args(args, objects)
@@ -149,13 +150,13 @@ class HBNBCommandHelper:
             attr_value = attr_value[1:-1]
 
         if attribute in illegal_attributes:
-            print("Illegal attribute update attempted..")
+            print("Illegal attribute update attempted")
             return
 
         key = "{}.{}".format(class_name, obj_id)
-        objects = FileStorage.all()
+        objects = storage.all()
         objects[key][attribute] = attr_value
-        FileStorage.save()
+        storage.save()
 
     @ staticmethod
     def isvalid_attributes(args):
@@ -203,7 +204,7 @@ class HBNBCommandHelper:
         # create key and get all objects
         class_name, obj_id = args[0], args[1]
         key = "{}.{}".format(class_name, obj_id)
-        objects = FileStorage.all()
+        objects = storage.all()
 
         # look for requested object
         if key not in objects.keys():

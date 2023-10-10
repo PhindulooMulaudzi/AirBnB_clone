@@ -9,9 +9,12 @@ from models.base_model import BaseModel
 class User(BaseModel):
     """This class represents a user and inherits from BaseModel."""
 
-    def __init__(self):
-        """Initialize a new User instance with empty values for attributes."""
-        self.email = ""
-        self.password = ""
-        self.first_name = ""
-        self.last_name = ""
+    email = ""
+    password = ""
+    first_name = ""
+    last_name = ""
+
+    def __init__(self, *args, **kwargs):
+        """Initialise the Base Class with the recieved arguments."""
+        # Call the superclass's __init__ method to inherit attributes
+        super().__init__(*args, **kwargs)

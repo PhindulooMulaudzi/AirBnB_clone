@@ -9,6 +9,7 @@ Attributes:
 """
 
 import json
+from os.path import exists
 
 
 class FileStorage:
@@ -56,5 +57,11 @@ class FileStorage:
     @classmethod
     def reload(cls):
         """Deserialize the JSON file to __objects."""
+        if not exists(cls.__file_path):
+            # Create the file if it doesn't exist
+            with open(cls.__file_path, 'w') as file:
+                file.write(json.dumps({}))  # Write an empty JSON object
+
+        # Load the JSON data into __objects
         with open(cls.__file_path, 'r') as file:
             cls.__objects = json.load(file)
