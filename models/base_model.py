@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 
-"""base_model.py - This module defines the BaseModel class."""
+"""
+BaseModel class for the AirBnB clone project.
+
+This module defines the BaseModel class, which serves as the base class for
+other models in the project and provides common functionality and attributes.
+"""
 
 from datetime import datetime
 from uuid import uuid4
@@ -28,7 +33,7 @@ class BaseModel:
         my_number (int): Total count of instances created.
 
     Methods:
-        __init__(*args, **kwargs): Initializes a BaseModel instance with a
+        __init__(*args, **kwargs): Initialize a BaseModel instance with a
         unique 'id', creation time, and updates the 'my_number' count.
         save(): Updates the 'updated_at' attribute with the current datetime.
         to_dict(): Converts instance attributes to a dictionary format.
@@ -40,7 +45,7 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """
-        Initialize a BaseModel instance with a unique 'id', e.t.c.
+        Initialize a BaseModel instance with a unique 'id', etc.
 
         Args:
             *args: Variable length argument list.
@@ -51,10 +56,10 @@ class BaseModel:
             created_at (str, optional):
                 String representation of creation time.
             updated_at (str, optional):
-                String representation of last update time.
+                String representation of the last update time.
 
         """
-        # create re-usable propery for current time
+        # Create a re-usable property for the current time
         current_time = datetime.now()
 
         if (kwargs):

@@ -1,13 +1,25 @@
 #!/usr/bin/python3
 
-"""Class User that inherits from BaseModel."""
+"""
+User class that inherits BaseModel.
 
+This module defines the User class,
+which represents a user and inherits from BaseModel.
+"""
 
 from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    """This class represents a user and inherits from BaseModel."""
+    """
+    User class representing a user, inheriting from BaseModel.
+
+    Attributes:
+        email (str): The email of the user.
+        password (str): The password of the user.
+        first_name (str): The first name of the user.
+        last_name (str): The last name of the user.
+    """
 
     email = ""
     password = ""
@@ -15,6 +27,12 @@ class User(BaseModel):
     last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """Initialise the Base Class with the recieved arguments."""
-        # Call the superclass's __init__ method to inherit attributes
+        """
+        Initialize a new User instance.
+
+        Args:
+            *args: Variable-length argument list.
+            **kwargs: Arbitrary keyword arguments.
+        """
+        # Call the parent class's __init__ method
         super().__init__(*args, **kwargs)

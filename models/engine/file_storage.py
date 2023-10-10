@@ -3,6 +3,10 @@
 """
 File Storage Module - A simple file-based storage mechanism using JSON.
 
+This module defines the FileStorage class, which implements a simple
+file-based storage mechanism using JSON. It provides methods to interact
+with the stored objects.
+
 Attributes:
     __file_path (str): Path to the JSON file.
     __objects (dict): Dictionary to store objects by class name and id.

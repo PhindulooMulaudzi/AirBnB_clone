@@ -1,28 +1,63 @@
 #!/usr/bin/python3
 
-"""Defines HBNBCommandHelper, which provides methods to,execute commands."""
+"""
+Defines HBNBCommandHelper, which provides methods to execute commands.
 
+This module defines the HBNBCommandHelper class, which offers methods to
+execute various commands related to the AirBnB clone project. It includes
+commands such as create, show, destroy, update, and all, allowing manipulation
+of instances and their attributes.
+
+Attributes:
+    class_mapping (dict): Mapping of class names to their corresponding
+                         class objects (e.g., 'BaseModel': BaseModel).
+
+"""
+
+from models.state import State
+from models.place import Place
+from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.__init__ import storage
+from models.city import City
+from models.review import Review
 from models.user import User
 
 
 class HBNBCommandHelper:
-    """This class provides methods to execute various commands."""
+    """This class provides methods to execute various commands.
+
+    The HBNBCommandHelper class contains static methods to
+    execute different commands related to the AirBnB clone project.
+    It uses a class_mapping dictionary to map command names to
+    their respective classes.
+
+    Attributes:
+        class_mapping (dict): A mapping of command names to their respective
+        class objects.
+    """
 
     class_mapping = {
         'BaseModel': BaseModel,
         'User': User,
-        # 'City': City,
-        # 'Place': Place,
-        # 'Amenity': Amenity,
-        # 'Review': Review,
-        # 'State': State
+        'City': City,
+        'Place': Place,
+        'Amenity': Amenity,
+        'Review': Review,
+        'State': State
     }
 
     @staticmethod
     def execute_command(command_name, args):
-        """Execute the given command with the provided arguments."""
+        """Execute the given command with the provided arguments.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            None
+        """
         if command_name == 'all':
             HBNBCommandHelper.do_all(args)
             return
@@ -41,7 +76,15 @@ class HBNBCommandHelper:
 
     @staticmethod
     def do_create(args):
-        """Execute the 'create' command."""
+        """Execute the 'create' command.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            None
+        """
         # get class name
         class_name = args[0]
 
@@ -56,7 +99,15 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def do_show(args):
-        """Execute the 'show' command."""
+        """Execute the 'show' command.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            None
+        """
         if not HBNBCommandHelper.isvalid_args(args):
             return
         if not HBNBCommandHelper.isvalid_key(args):
@@ -72,7 +123,15 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def do_destroy(args):
-        """Execute the 'destroy' command."""
+        """Execute the 'destroy' command.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            None
+        """
         if not HBNBCommandHelper.isvalid_args(args) or \
                 not HBNBCommandHelper.isvalid_key(args):
             return
@@ -86,7 +145,15 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def do_all(args):
-        """Execute the 'all' command."""
+        """Execute the 'all' command.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            None
+        """
         objects = storage.all()
 
         if not args:
@@ -96,7 +163,15 @@ class HBNBCommandHelper:
 
     @staticmethod
     def print_all_from_args(args, objects):
-        """Print all objects when no args are specified."""
+        """Print all objects when no args are specified.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            None
+        """
         class_name = args[0]
         if class_name not in HBNBCommandHelper.class_mapping:
             print("** class doesn't exist **")
@@ -117,7 +192,15 @@ class HBNBCommandHelper:
 
     @staticmethod
     def print_all_no_args(args, objects):
-        """Print all objects when no args are specified."""
+        """Print all objects when no args are specified.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            None
+        """
         result_list = []
         for key, val in objects.items():
             parsed_class_name = key.split(".")[0]
@@ -133,7 +216,15 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def do_update(args):
-        """Execute the 'update' command."""
+        """Execute the 'update' command.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            None
+        """
         if not HBNBCommandHelper.isvalid_args(args) or \
                 not HBNBCommandHelper.isvalid_key(args)\
                 or not HBNBCommandHelper.isvalid_attributes(args):
@@ -160,7 +251,15 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def isvalid_attributes(args):
-        """Check if attributes passed in as arguments are valid."""
+        """Check if attributes passed in as arguments are valid.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            True if valid, False otherwise.
+        """
         if len(args) == 2:
             print("** attribute name missing **")
             return False
@@ -174,7 +273,14 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def isvalid_class_name(args):
-        """Determine if class name exists or is not specified."""
+        """Determine if class name exists or is not specified.
+
+        Args:
+            args (list): The arguments for the command.
+
+        Returns:
+            True if valid, False otherwise.
+        """
         if (args == []):
             print("** class name missing **")
             return False
@@ -188,7 +294,15 @@ class HBNBCommandHelper:
         return True
 
     def isvalid_args(args):
-        """Check if the recieved args are valid."""
+        """Check if the recieved args are valid.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            True if valid, False otherwise.
+        """
         # create key of object in storage
         if not isinstance(args, list):
             return False
@@ -200,7 +314,15 @@ class HBNBCommandHelper:
         return True
 
     def isvalid_key(args):
-        """Check if parsed key is existing or valid."""
+        """Check if parsed key is existing or valid.
+
+        Args:
+            command_name (str): The name of the command to execute.
+            args (list): The arguments for the command.
+
+        Returns:
+            True if valid, False otherwise.
+        """
         # create key and get all objects
         class_name, obj_id = args[0], args[1]
         key = "{}.{}".format(class_name, obj_id)

@@ -1,6 +1,17 @@
 #!/usr/bin/python3
 
-"""console.py - A Python program implementing a command interpreter."""
+"""
+console.py - A Python program implementing a command interpreter.
+
+This module defines a command-line interface (CLI) program using Python's
+cmd module. The program implements a command interpreter for handling various
+commands related to the AirBnB clone project.
+
+The HBNBCommand class inherits from cmd.Cmd and provides methods to handle
+commands such as quit, EOF (Ctrl+D), help, create, show, destroy, all, update,
+and custom commands using the HBNBCommandHelper.
+
+"""
 
 import cmd
 from console_helper import HBNBCommandHelper
