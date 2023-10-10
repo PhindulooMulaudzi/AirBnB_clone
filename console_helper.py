@@ -21,13 +21,7 @@ class HBNBCommandHelper:
 
     @staticmethod
     def execute_command(command_name, args):
-        """
-        Execute the given command with the provided arguments.
-
-        Args:
-            command_name (str): The name of the command to execute.
-            args (list): List of arguments for the command.
-        """
+        """Execute the given command with the provided arguments."""
         if command_name == 'all':
             HBNBCommandHelper.do_all(args)
             return
@@ -46,12 +40,7 @@ class HBNBCommandHelper:
 
     @staticmethod
     def do_create(args):
-        """
-        Execute the 'create' command.
-
-        Args:
-            args (list): List of arguments for the 'create' command.
-        """
+        """Execute the 'create' command."""
         # get class name
         class_name = args[0]
 
@@ -62,16 +51,11 @@ class HBNBCommandHelper:
         FileStorage.new(obj)
         FileStorage.save()
 
-        print("{} created with id {}".format(class_name, obj.id))
+        print(obj.id)
 
     @ staticmethod
     def do_show(args):
-        """
-        Execute the 'show' command.
-
-        Args:
-            args (list): List of arguments for the 'show' command.
-        """
+        """Execute the 'show' command."""
         if not HBNBCommandHelper.isvalid_args(args):
             return
         if not HBNBCommandHelper.isvalid_key(args):
@@ -87,12 +71,7 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def do_destroy(args):
-        """
-        Execute the 'destroy' command.
-
-        Args:
-            args (list): List of arguments for the 'destroy' command.
-        """
+        """Execute the 'destroy' command."""
         if not HBNBCommandHelper.isvalid_args(args) or \
                 not HBNBCommandHelper.isvalid_key(args):
             return
@@ -106,12 +85,7 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def do_all(args):
-        """
-        Execute the 'all' command.
-
-        Args:
-            args (list): List of arguments for the 'all' command.
-        """
+        """Execute the 'all' command."""
         objects = FileStorage.all()
 
         if not args:
@@ -158,16 +132,44 @@ class HBNBCommandHelper:
 
     @ staticmethod
     def do_update(args):
-        """
-        Execute the 'update' command.
-
-        Args:
-            args (list): List of arguments for the 'update' command.
-        """
+        """Execute the 'update' command."""
         if not HBNBCommandHelper.isvalid_args(args) or \
-                not HBNBCommandHelper.isvalid_key(args):
+                not HBNBCommandHelper.isvalid_key(args)\
+                or not HBNBCommandHelper.isvalid_attributes(args):
             return
-        print('Executing update logic with args:', args)
+
+        class_name, obj_id = args[0], args[1]
+        attribute, attr_value = args[2], args[3]
+        illegal_attributes = ["id", "created_at", "updated_at"]
+
+        # strip quotes from string attribute value
+        if isinstance(attr_value, str) and \
+            attr_value.startswith('"') and \
+                attr_value.endswith('"'):
+            attr_value = attr_value[1:-1]
+
+        if attribute in illegal_attributes:
+            print("Illegal attribute update attempted..")
+            return
+
+        key = "{}.{}".format(class_name, obj_id)
+        objects = FileStorage.all()
+        objects[key][attribute] = attr_value
+        FileStorage.save()
+
+    @ staticmethod
+    def isvalid_attributes(args):
+        """Check if attributes passed in as arguments are valid."""
+        if len(args) == 2:
+            print("** attribute name missing **")
+            return False
+        if len(args) == 3:
+            print("** value missing **")
+            return False
+        if len(args) == 4:
+            return True
+
+        return False
 
     @ staticmethod
     def isvalid_class_name(args):
@@ -190,7 +192,7 @@ class HBNBCommandHelper:
         if not isinstance(args, list):
             return False
 
-        if list.__len__(args) != 2:
+        if list.__len__(args) < 2:
             print("** instance id missing **")
             return False
 

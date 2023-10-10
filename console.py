@@ -26,15 +26,26 @@ class HBNBCommand(cmd.Cmd):
 
     def do_help(self, arg):
         """Display help for available commands."""
+        update_info = "Description: Updates an instance's attribute.\nUsage: "\
+            + "update <class name> <id> <attribute name> \"<attribute value>\""
+        show_info = "Description: Prints the string representation of "\
+                    + "an instance.\nUsage: Show <class name> <id>"
+        destroy_info = "Description: Deletes an existing class instance."\
+            + "\nUsage: Destroy <class name> <id>"
+        all_info = "Description: Prints the string representation "\
+            + "of all instances.\nUsage: all or all <class name>"
+        create_info = "Description: Creates a new instance of BaseModel.\n"\
+            + "Usage: Create <class name>"
+
         help_info = {
-            'quit': 'This command quits the program.',
-            'EOF': 'This command quits the program.',
-            'help': 'Display help for available commands.',
-            'create': 'Creates a new instance of BaseModel.',
-            'show': 'Prints the string representation of an instance.',
-            'destroy': 'Prints the string representation of an instance.',
-            'all': 'Prints all string representation of all instances.',
-            'update': 'Prints all string representation of all instances.',
+            'quit': 'Description: This command quits the program.',
+            'EOF': 'Description: This command quits the program.',
+            'help': 'Description: Display help for available commands.',
+            'create': create_info,
+            'show': show_info,
+            'destroy': destroy_info,
+            'all': all_info,
+            'update': update_info,
         }
 
         if arg in help_info.keys():
