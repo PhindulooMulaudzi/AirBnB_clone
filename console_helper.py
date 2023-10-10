@@ -35,6 +35,7 @@ class HBNBCommandHelper:
     Attributes:
         class_mapping (dict): A mapping of command names to their respective
         class objects.
+        registered_commands (list): A list of registered command names.
     """
 
     class_mapping = {
@@ -47,6 +48,8 @@ class HBNBCommandHelper:
         'State': State
     }
 
+    registered_commands = ["all", "create", "show", "destroy", "update"]
+
     @staticmethod
     def execute_command(command_name, args):
         """Execute the given command with the provided arguments.
@@ -58,8 +61,7 @@ class HBNBCommandHelper:
         Returns:
             None
         """
-        known_commands = ["all", "create", "show", "destroy", "update"]
-        if command_name not in known_commands:
+        if command_name not in HBNBCommandHelper.registered_commands:
             print(f"Unknown command: {command_name}")
             return
 
