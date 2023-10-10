@@ -58,11 +58,6 @@ The data model comprises various classes representing AirBnB objects. These clas
 
 3. Ensure you have Python installed. This project is compatible with Python 3.x.
 
-### Authors
-
-Contributors to this project:
-- [Phindulo Mulaudzi](https://github.com/your_github_profile)
-
 ### Starting the Command Interpreter
 
 To start the command interpreter, run the `console.py` script:
@@ -121,3 +116,8 @@ Here are some examples of commands you can use in the interactive mode:
 - `destroy <class_name> <id>`: Deletes an instance based on the class name and ID.
 
 Feel free to explore and use these commands to manage AirBnB objects efficiently.
+
+### Authors
+
+Contributors to this project:
+- [Phindulo Mulaudzi](https://github.com/your_github_profile)
