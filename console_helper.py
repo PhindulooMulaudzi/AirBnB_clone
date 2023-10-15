@@ -14,6 +14,7 @@ Attributes:
 
 """
 
+import re
 from models.state import State
 from models.place import Place
 from models.amenity import Amenity
@@ -60,31 +61,36 @@ class HBNBCommandHelper:
         Returns:
             command_name and args.
         """
+        split_string = command_name.split('.')
 
-        if not args:
-            split_string = command_name.split('.')
+        if len(split_string) < 2:
+            return None, None
 
-            if len(split_string) < 2:
-                return None, None
+        class_name = split_string[0]
+        split_args = split_string[1].split('(')
 
-            class_name = split_string[0]
-            split_args = split_string[1].split('(')
+        if len(split_args) < 2:
+            return None, None
 
-            if len(split_args) < 2:
-                return None, None
+        cmd = split_args[0]
+        arg1 = split_args[1][:-1]
 
-            arg1 = split_args[0]
-            arg2 = split_args[1][:-1]
+        if arg1.startswith('"') and \
+                arg1.endswith('"'):
+            arg1 = arg1[1:-1]
 
-            if arg2.startswith('"') and \
-                    arg2.endswith('"'):
-                arg2 = arg2[1:-1]
+        if args is None:
+            args = [str(class_name), str(arg1)]
+        else:
+            args_list = []
+            args_list.extend([class_name, str(arg1)])
+            for arg in args:
+                iarg = re.sub(r'[^a-zA-Z0-9]', '', arg)
+                args_list.append(iarg)
 
-            args = [str(class_name), str(arg2)]
-            command_name = str(arg1)
+        command_name = str(cmd)
 
-            return command_name, args
-        return None, None
+        return command_name, args_list
 
     @staticmethod
     def execute_command(command_name, args):
@@ -105,8 +111,6 @@ class HBNBCommandHelper:
 
         if command_name not in HBNBCommandHelper.registered_commands:
             print(f"Unknown command: {command_name}")
-            print(command_name)
-            print(args)
             return
 
         if command_name == 'all':
@@ -254,7 +258,7 @@ class HBNBCommandHelper:
             parsed_class_name = key.split(".")[0]
 
             if parsed_class_name not in HBNBCommandHelper.class_mapping:
-                print("** class doesn't exist **")
+                # print("** class doesn't exist **")
                 continue
 
             class_ctor = HBNBCommandHelper.class_mapping[parsed_class_name]
