@@ -50,6 +50,42 @@ class HBNBCommandHelper:
 
     registered_commands = ["all", "create", "show", "destroy", "update"]
 
+    @ staticmethod
+    def handle_class_based_commands(command_name, args):
+        """Handle class based commands like User.all().
+
+        Args:
+            User input args, with command name
+
+        Returns:
+            command_name and args.
+        """
+
+        if not args:
+            split_string = command_name.split('.')
+
+            if len(split_string) < 2:
+                return None, None
+
+            class_name = split_string[0]
+            split_args = split_string[1].split('(')
+
+            if len(split_args) < 2:
+                return None, None
+
+            arg1 = split_args[0]
+            arg2 = split_args[1][:-1]
+
+            if arg2.startswith('"') and \
+                    arg2.endswith('"'):
+                arg2 = arg2[1:-1]
+
+            args = [str(class_name), str(arg2)]
+            command_name = str(arg1)
+
+            return command_name, args
+        return None, None
+
     @staticmethod
     def execute_command(command_name, args):
         """Execute the given command with the provided arguments.
@@ -61,8 +97,16 @@ class HBNBCommandHelper:
         Returns:
             None
         """
+        class_cmd, class_args = \
+            HBNBCommandHelper.handle_class_based_commands(command_name, args)
+        if class_cmd and class_args:
+            command_name = class_cmd
+            args = class_args
+
         if command_name not in HBNBCommandHelper.registered_commands:
             print(f"Unknown command: {command_name}")
+            print(command_name)
+            print(args)
             return
 
         if command_name == 'all':
@@ -300,6 +344,7 @@ class HBNBCommandHelper:
         # Return true ottherwise
         return True
 
+    @staticmethod
     def isvalid_args(args):
         """Check if the recieved args are valid.
 
@@ -320,6 +365,7 @@ class HBNBCommandHelper:
 
         return True
 
+    @staticmethod
     def isvalid_key(args):
         """Check if parsed key is existing or valid.
 
